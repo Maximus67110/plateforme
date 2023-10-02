@@ -43,9 +43,13 @@ class Location
     #[ORM\ManyToOne(inversedBy: 'locations')]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'location', targetEntity: Booking::class)]
+    private Collection $booking;
+
     public function __construct()
     {
         $this->room = new ArrayCollection();
+        $this->booking = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +179,36 @@ class Location
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBooking(): Collection
+    {
+        return $this->booking;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->booking->contains($booking)) {
+            $this->booking->add($booking);
+            $booking->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->booking->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getLocation() === $this) {
+                $booking->setLocation(null);
+            }
+        }
 
         return $this;
     }
