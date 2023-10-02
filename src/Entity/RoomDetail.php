@@ -19,6 +19,9 @@ class RoomDetail
     #[ORM\ManyToOne(inversedBy: 'roomDetails')]
     private ?Bed $bed = null;
 
+    #[ORM\ManyToOne(inversedBy: 'detail')]
+    private ?Room $room = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class RoomDetail
     public function setBed(?Bed $bed): static
     {
         $this->bed = $bed;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
 
         return $this;
     }
