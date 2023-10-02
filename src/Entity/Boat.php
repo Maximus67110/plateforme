@@ -6,13 +6,8 @@ use App\Repository\BoatRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BoatRepository::class)]
-class Boat
+class Boat extends Location
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(length: 255)]
     private ?string $motor = null;
 
@@ -21,11 +16,6 @@ class Boat
 
     #[ORM\Column]
     private ?bool $isMoving = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getMotor(): ?string
     {

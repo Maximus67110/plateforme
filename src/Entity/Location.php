@@ -8,8 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name: 'locationType', type: 'string')]
+#[ORM\DiscriminatorMap(['appart' => Appart::class, 'boat' => Boat::class, 'house' => House::class, 'treeHouse' => TreeHouse::class])]
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
-class Location
+abstract class Location
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
