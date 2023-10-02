@@ -25,6 +25,9 @@ class Room
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: RoomDetail::class)]
     private Collection $detail;
 
+    #[ORM\ManyToOne(inversedBy: 'room')]
+    private ?Location $location = null;
+
     public function __construct()
     {
         $this->detail = new ArrayCollection();
@@ -85,6 +88,18 @@ class Room
                 $detail->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
 
         return $this;
     }
