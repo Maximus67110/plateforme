@@ -15,14 +15,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class LocationController extends AbstractController
 {
     #[IsGranted("ROLE_USER")]
-    #[Route('/new', name: 'app_location_new')]
+    #[Route('/new', name: 'app_location_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $locationType = $request->query->get('locationType');
         if (!$locationType) {
             return $this->render('location/new-list.html.twig');
         }
-        if (class_exists('App\\Entity\\' . $locationType) && get_parent_class('App\\Entity\\' . $locationType) === "App\\Entity\\Location") {
+        if (class_exists('App\\Entity\\' . $locationType) && get_parent_class('App\\Entity\\'.$locationType) === "App\\Entity\\Location") {
             $location = new ("App\\Entity\\".$locationType)();
             $form = $this->createForm("App\\Form\\".$locationType."Type", $location);
             $form->handleRequest($request);
@@ -42,7 +42,7 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'app_location_edit', requirements: ['id' => '\d+'])]
+    #[Route('/edit/{id}', name: 'app_location_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(Request $request, Location $location, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm("App\\Form\\".$location->getClassName()."Type", $location);
@@ -57,7 +57,7 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'app_location_delete', requirements: ['id' => '\d+'])]
+    #[Route('/delete/{id}', name: 'app_location_delete', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function delete(Location $post, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($post);
@@ -65,7 +65,7 @@ class LocationController extends AbstractController
         return $this->redirectToRoute('app_location_list');
     }
 
-    #[Route('/', name: 'app_location_list')]
+    #[Route('/', name: 'app_location_list', methods: ['GET'])]
     public function list(LocationRepository $locationRepository): Response
     {
         $locations = $locationRepository->findAll();
@@ -75,7 +75,7 @@ class LocationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_location_detail', requirements: ['id' => '\d+'])]
+    #[Route('/{id}', name: 'app_location_detail', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function detail(Location $location): Response
     {
         return $this->render('location/detail.html.twig', [
