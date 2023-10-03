@@ -20,14 +20,18 @@ class LocationController extends AbstractController
         if (!$locationType) {
             return $this->render('location/list.html.twig');
         }
-        $location = new ("App\\Entity\\".$locationType)();
-        $form = $this->createForm("App\\Form\\".$locationType."Type", $location);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $location->setUser($this->getUser());
-            $entityManager->persist($location);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_home');
+        if (class_exists('App\\Entity\\' . $locationType) && get_parent_class('App\\Entity\\' . $locationType) === "App\\Entity\\Location") {
+            $location = new ("App\\Entity\\".$locationType)();
+            $form = $this->createForm("App\\Form\\".$locationType."Type", $location);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $location->setUser($this->getUser());
+                $entityManager->persist($location);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_home');
+            }
+        } else {
+            return $this->render('location/list.html.twig');
         }
 
         return $this->render('location/new.html.twig', [
