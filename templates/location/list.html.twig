@@ -1,41 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Location{% endblock %}
+{% block title %}Location List{% endblock %}
 
 {% block body %}
-    <div class="container mt-2">
+    <div class="container">
         <div class="text-center mt-4">
-            <h1>Create Location</h1>
-            <div class="row mt-5 mb-4">
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'Boat' }) }}">Boat</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'TreeHouse' }) }}">TreeHouse</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'House' }) }}">House</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'Appart' }) }}">Appart</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h1>Location List</h1>
         </div>
+        <div class="d-flex justify-content-start">
+            <a class="btn btn-outline-success" href="{{ path('app_location_new') }}">New</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Address</th>
+                <th scope="col">NbrRoom</th>
+                <th scope="col">Description</th>
+                <th scope="col">NightPrice</th>
+                <th scope="col">Area</th>
+                <th scope="col">City</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for location in locations %}
+                <tr>
+                    <th scope="row">{{ location.id }}</th>
+                    <td>{{ location.title }}</td>
+                    <td>{{ location.address }}</td>
+                    <td>{{ location.nbrRoom }}</td>
+                    <td>{{ location.description }}</td>
+                    <td>{{ location.nightPrice }}</td>
+                    <td>{{ location.area }}</td>
+                    <td>{{ location.city }}</td>
+                    <td>
+                        <a class="btn btn-outline-info" href="{{ path('app_location_detail', { id: location.id }) }}">Detail</a>
+                        <a class="btn btn-outline-secondary" href="{{ path('app_location_edit', { id: location.id }) }}">Edit</a>
+                        <a class="btn btn-outline-danger" href="{{ path('app_location_delete', { id: location.id }) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ location.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-2">
+        <a class="btn btn-outline-secondary" href="{{ path('app_location_list') }}">Back</a>
+        <div class="text-center mt-4">
+            <h1>{{ location.title }}</h1>
+        </div>
+        <p>Address&nbsp;: {{ location.address }}</p>
+        <p>Address&nbsp;: {{ location.address }}</p>
+        <p>NbrRoom&nbsp;: {{ location.nbrRoom }}</p>
+        <p>Description&nbsp;: {{ location.description }}</p>
+        <p>NightPrice&nbsp;: {{ location.nightPrice }}</p>
+        <p>Area&nbsp;: {{ location.area }}</p>
+        <p>City&nbsp;: {{ location.city }}</p>
+    </div>
+{% endblock %}

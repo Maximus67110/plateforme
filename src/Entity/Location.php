@@ -18,37 +18,37 @@ abstract class Location
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $address = null;
+    protected ?string $address = null;
 
     #[ORM\Column]
-    private ?int $nbrRoom = null;
+    protected ?int $nbrRoom = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    protected ?string $description = null;
 
     #[ORM\Column]
-    private ?int $nightPrice = null;
+    protected ?int $nightPrice = null;
 
     #[ORM\Column]
-    private ?int $area = null;
+    protected ?int $area = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    protected ?string $city = null;
 
     #[ORM\OneToMany(mappedBy: 'location', targetEntity: Room::class)]
-    private Collection $room;
+    protected Collection $room;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
-    private ?User $user = null;
+    protected ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'location', targetEntity: Booking::class)]
-    private Collection $booking;
+    protected Collection $booking;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    protected ?string $title = null;
 
     public function __construct()
     {
