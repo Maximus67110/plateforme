@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionClass;
 
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: 'locationType', type: 'string')]
@@ -21,9 +22,6 @@ abstract class Location
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
 
     #[ORM\Column]
     private ?int $nbrRoom = null;
@@ -49,6 +47,9 @@ abstract class Location
     #[ORM\OneToMany(mappedBy: 'location', targetEntity: Booking::class)]
     private Collection $booking;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     public function __construct()
     {
         $this->room = new ArrayCollection();
@@ -68,18 +69,6 @@ abstract class Location
     public function setAddress(string $address): static
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -214,5 +203,22 @@ abstract class Location
         }
 
         return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getClassName(): string
+    {
+        return (new ReflectionClass($this))->getShortName();
     }
 }

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Location{% endblock %}
+
+{% block body %}
+    <div class="container mt-2">
+        <div class="text-center mt-4">
+            <h1>Create Location</h1>
+            <div class="row mt-5 mb-4">
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'Boat' }) }}">Boat</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'TreeHouse' }) }}">TreeHouse</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'House' }) }}">House</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <a class="card-title" href="{{ path('app_location_new', { 'locationType': 'Appart' }) }}">Appart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
