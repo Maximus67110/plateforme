@@ -40,9 +40,10 @@ class LocationType extends AbstractType
                 $results = $resultSet->fetchAssociative();
                 if (!$results) {
                     $form->get("city")->addError(new FormError("City doesn't exist"));
+                } else {
+                    $location->setLatitude($results['ville_latitude_deg']);
+                    $location->setLongitude($results['ville_longitude_deg']);
                 }
-                $location->setLatitude($results['ville_latitude_deg']);
-                $location->setLongitude($results['ville_longitude_deg']);
             })
         ;
     }
