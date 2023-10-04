@@ -50,6 +50,12 @@ abstract class Location
     #[ORM\Column(length: 255)]
     protected ?string $title = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $latitude = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $longitude = null;
+
     public function __construct()
     {
         $this->room = new ArrayCollection();
@@ -220,5 +226,29 @@ abstract class Location
     public function getClassName(): string
     {
         return (new ReflectionClass($this))->getShortName();
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(string $latitude): static
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(string $longitude): static
+    {
+        $this->longitude = $longitude;
+
+        return $this;
     }
 }

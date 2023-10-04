@@ -17,7 +17,9 @@ class BoatType extends LocationType
         $builder
             ->add('motor', TextType::class)
             ->add('roofHeight', IntegerType::class)
-            ->add('isMoving', CheckboxType::class)
+            ->add('isMoving', CheckboxType::class, [
+                'required' => false,
+            ])
         ;
     }
 

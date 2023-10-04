@@ -35,12 +35,14 @@ class LocationType extends AbstractType
                 $form = $event->getForm();
 
                 $con = $this->entityManager->getConnection();
-                $sql = 'SELECT ville_nom_reel FROM fixture_city where ville_nom_reel = :city';
+                $sql = 'SELECT ville_latitude_deg, ville_longitude_deg FROM fixture_city where ville_nom_reel = :city';
                 $resultSet = $con->executeQuery($sql, ['city' => $location->getCity()]);
-                $results = $resultSet->fetchOne();
+                $results = $resultSet->fetchAssociative();
                 if (!$results) {
                     $form->get("city")->addError(new FormError("City doesn't exist"));
                 }
+                $location->setLatitude($results['ville_latitude_deg']);
+                $location->setLongitude($results['ville_longitude_deg']);
             })
         ;
     }
