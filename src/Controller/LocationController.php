@@ -42,6 +42,7 @@ class LocationController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/edit/{id}', name: 'app_location_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(Request $request, Location $location, EntityManagerInterface $entityManager): Response
     {
@@ -57,6 +58,7 @@ class LocationController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/delete/{id}', name: 'app_location_delete', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function delete(Location $post, EntityManagerInterface $entityManager): Response
     {
@@ -65,6 +67,7 @@ class LocationController extends AbstractController
         return $this->redirectToRoute('app_location_list');
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/', name: 'app_location_list', methods: ['GET'])]
     public function list(LocationRepository $locationRepository): Response
     {

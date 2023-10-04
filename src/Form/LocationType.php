@@ -25,7 +25,7 @@ class LocationType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('nightPrice', MoneyType::class)
             ->add('area', IntegerType::class)
-            ->add('city', TextType::class)
+            ->add('city', TextType::class,  ['attr' => ['list' => 'cities']])
         ;
     }
 

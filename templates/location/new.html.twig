@@ -3,7 +3,7 @@
 {% block title %}Create {{ location }}{% endblock %}
 
 {% block body %}
-    <div class="container mt-2">
+    <div class="container mt-2" {{ stimulus_controller('location') }}>
         <a class="btn btn-outline-secondary" href="{{ path('app_location_new') }}">Back</a>
         <div class="text-center mt-4">
             <h1>Create {{ location }}</h1>
