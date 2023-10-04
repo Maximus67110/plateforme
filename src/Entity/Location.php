@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ReflectionClass;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: 'locationType', type: 'string')]
@@ -20,6 +21,7 @@ abstract class Location
     #[ORM\Column]
     protected ?int $id = null;
 
+    #[Assert\NotBlank([], '{{ label }} should not be blank.')]
     #[ORM\Column(length: 255)]
     protected ?string $address = null;
 
@@ -29,6 +31,7 @@ abstract class Location
     #[ORM\Column(type: Types::TEXT)]
     protected ?string $description = null;
 
+    #[Assert\Positive([], '{{ label }} should be positive')]
     #[ORM\Column]
     protected ?int $nightPrice = null;
 
@@ -47,6 +50,12 @@ abstract class Location
     #[ORM\OneToMany(mappedBy: 'location', targetEntity: Booking::class)]
     protected Collection $booking;
 
+    #[Assert\Length(
+        min: 10,
+        max: 100,
+        minMessage: '{{ label }} must be at least {{ limit }} characters long',
+        maxMessage: '{{ label }} cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(length: 255)]
     protected ?string $title = null;
 

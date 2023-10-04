@@ -4,16 +4,29 @@ namespace App\Entity;
 
 use App\Repository\BoatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BoatRepository::class)]
 class Boat extends Location
 {
+    #[Assert\When(
+        expression: 'this.isMoving() === false',
+        constraints: [
+            new Assert\Blank([], message: 'Motor is not required, the boat is not moving')
+        ],
+    )]
     #[ORM\Column(length: 255)]
     private ?string $motor = null;
 
     #[ORM\Column]
     private ?int $roofHeight = null;
 
+    #[Assert\When(
+        expression: 'this.getMotor() != null',
+        constraints: [
+            new Assert\Blank([], message: 'Boat should be moving')
+        ],
+    )]
     #[ORM\Column]
     private ?bool $isMoving = null;
 
@@ -41,7 +54,7 @@ class Boat extends Location
         return $this;
     }
 
-    public function isIsMoving(): ?bool
+    public function isMoving(): ?bool
     {
         return $this->isMoving;
     }
