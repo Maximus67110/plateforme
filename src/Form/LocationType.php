@@ -23,12 +23,10 @@ class LocationType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('address', TextType::class)
             ->add('nbrRoom', IntegerType::class)
             ->add('description', TextareaType::class)
             ->add('nightPrice', MoneyType::class)
             ->add('area', IntegerType::class)
-            ->add('city', TextType::class,  ['attr' => ['list' => 'cities']])
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event): void {
                 /** @var Location $location */
                 $location = $event->getData();
@@ -43,6 +41,22 @@ class LocationType extends AbstractType
                 } else {
                     $location->setLatitude($results['ville_latitude_deg']);
                     $location->setLongitude($results['ville_longitude_deg']);
+                }
+            })
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+                /** @var Location $location */
+                $location = $event->getData();
+                $form = $event->getForm();
+                if ($location->getId()) {
+                    $form
+                        ->remove('address')
+                        ->remove('city')
+                    ;
+                } else {
+                    $form
+                        ->add('address', TextType::class)
+                        ->add('city', TextType::class,  ['attr' => ['list' => 'cities']])
+                    ;
                 }
             })
         ;
