@@ -36,6 +36,7 @@
                     <td>{{ location.area }}</td>
                     <td>{{ location.city }}</td>
                     <td>
+                        <a class="btn btn-outline-primary" href="{{ path('app_room_list', { id: location.id }) }}">Room</a>
                         <a class="btn btn-outline-info" href="{{ path('app_location_detail', { id: location.id }) }}">Detail</a>
                         <a class="btn btn-outline-secondary" href="{{ path('app_location_edit', { id: location.id }) }}">Edit</a>
                         <a class="btn btn-outline-danger" href="{{ path('app_location_delete', { id: location.id }) }}">Delete</a>

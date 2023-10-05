@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Room{% endblock %}
+
+{% block body %}
+    <div class="container mt-2" {{ stimulus_controller('room') }} data-room-index-value="{{ form.detail|length }}" data-room-prototype-value="{{ form_widget(form.detail.vars.prototype)|e('html_attr') }}">
+        <div class="text-center mt-4">
+            <h1>Create Room</h1>
+        </div>
+        {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+            <h2>Beds</h2>
+            <button class="btn btn-primary mb-2" type="button" {{ stimulus_action('room', 'addBed', 'click') }}>
+                Add a bed
+            </button>
+            {{ form_rest(form) }}
+            <ul {{ stimulus_target('room', 'collectionContainer') }}></ul>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

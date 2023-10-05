@@ -22,7 +22,7 @@ class Room
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: RoomDetail::class)]
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: RoomDetail::class, cascade: ['persist', 'remove'])]
     private Collection $detail;
 
     #[ORM\ManyToOne(inversedBy: 'room')]
