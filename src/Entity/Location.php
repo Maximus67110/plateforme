@@ -260,4 +260,18 @@ abstract class Location
 
         return $this;
     }
+
+    public function getTotalCapacity(): int
+    {
+        $capacity = 0;
+        foreach ($this->getRoom() as $room) {
+            foreach ($room->getDetail() as $detail) {
+                $capacity += ($detail->getQuantity() * $detail->getBed()?->getCapacity());
+            }
+        }
+        /**foreach ($this->getRoom() as $room) {
+        $capacity += array_sum(array_map(static fn($detail) => $detail->getQuantity() * $detail->getBed()?->getCapacity(), $room->getDetail()->toArray()));
+        }**/
+        return $capacity;
+    }
 }
