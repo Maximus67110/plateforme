@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Booking List{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-center mt-4">
+            <h1>Booking List</h1>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">StartDate</th>
+                    <th scope="col">EndDate</th>
+                    <th scope="col">Participant</th>
+                    <th scope="col">TotalPrice</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <th scope="row">{{ booking.id }}</th>
+                        <td>{{ booking.location.title }}</td>
+                        <td>{{ booking.dateStart|date("m/d/Y") }}</td>
+                        <td>{{ booking.dateEnd|date("m/d/Y") }}</td>
+                        <td>{{ booking.participant }}</td>
+                        <td>{{ booking.totalPrice }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

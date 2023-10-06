@@ -74,7 +74,7 @@ class LocationController extends AbstractController
             $booking->setTotalPrice($totalPrice);
             $entityManager->persist($booking);
             $entityManager->flush();
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_booking_user');
         }
         return $this->render('location/book.html.twig', [
             'form' => $form,
