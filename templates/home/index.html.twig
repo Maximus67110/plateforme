@@ -32,6 +32,10 @@
         </div>
         <div class="row mt-5 mb-4">
             {% for location in locations %}
+                {% if location['dist'] is defined %}
+                    {% set distance = location['dist'] %}
+                    {% set location = location[0] %}
+                {% endif %}
                 <div class="col-md-6 col-lg-3 mb-3">
                     <a href="{{ path('app_location_detail', {'id': location.id}) }}">
                         <div class="card" style="width: 18rem;">
@@ -39,7 +43,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ location.title }}</h5>
                                 <div class="card-text">
-                                    <p>{{ location.city }}</p>
+                                    {% if distance is defined %}
+                                        <p>{{ location.city }} {{ distance|round }} km</p>
+                                    {% else %}
+                                        <p>{{ location.city }}</p>
+                                    {% endif %}
                                     {% if location.totalCapacity > 0 %}
                                         <p>{{ location.totalCapacity }} personnes</p>
                                     {% else %}

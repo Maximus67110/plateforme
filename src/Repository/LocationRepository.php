@@ -21,8 +21,13 @@ class LocationRepository extends ServiceEntityRepository
         parent::__construct($registry, Location::class);
     }
 
-    public function search(string $where, string $begin, string $end, int $capacity): array
+    public function search(string $where = null, string $begin = null, string $end = null, int $capacity = null): array
     {
+        $con = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT ville_departement, ville_nom_simple, ville_nom_reel, ville_latitude_deg, ville_longitude_deg FROM fixture_city where ville_nom_simple = :city';
+        $resultSet = $con->executeQuery($sql, ['city' => $where]);
+        $city = $resultSet->fetchAssociative();
+
         $qb = $this->createQueryBuilder('l')
             ->innerJoin('l.room', 'r')
             ->innerJoin('r.detail', 'rd')
@@ -32,6 +37,12 @@ class LocationRepository extends ServiceEntityRepository
             $qb
                 ->andHaving('SUM(rd.quantity * b.capacity) <= :capacity')
                 ->setParameter('capacity', $capacity);
+        }
+        if ($city && $city["ville_latitude_deg"] && $city["ville_longitude_deg"]) {
+            $qb->addSelect("ACOS(SIN(PI()*l.latitude/180.0)*SIN(PI()*:lat2/180.0)+COS(PI()*l.latitude/180.0)*COS(PI()*:lat2/180.0)*COS(PI()*:lon2/180.0-PI()*l.longitude/180.0))*6371 AS dist")
+                ->setParameter(":lat2", $city["ville_latitude_deg"])
+                ->setParameter(":lon2", $city["ville_longitude_deg"])
+                ->orderBy("dist");
         }
         return $qb
             ->getQuery()

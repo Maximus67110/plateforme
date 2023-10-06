@@ -17,6 +17,7 @@ class HomeController extends AbstractController
         $begin = $request->query->get('begin');
         $end = $request->query->get('end');
         $capacity = (int) $request->query->get('capacity');
+
         $locations = $locationRepository->search($where, $begin, $end, $capacity);
         return $this->render('home/index.html.twig', [
             'locations' => $locations,
