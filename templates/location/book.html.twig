@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book "{{ location.title }}"{% endblock %}
+
+{% block body %}
+    <div class="container mt-2">
+        <a class="btn btn-outline-secondary" href="{{ path('app_home') }}">Back</a>
+        <div class="text-center mt-4">
+            <h1>Edit</h1>
+        </div>
+        {{ form_start(form) }}
+            {{form_rest(form) }}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

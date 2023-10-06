@@ -53,6 +53,7 @@
                                     {% else %}
                                         <p>{{ location.totalCapacity }} personne</p>
                                     {% endif %}
+                                    <a class="btn btn-success" href="{{ path('app_location_book', { id: location.id }) }}">Book</a>
                                 </div>
                             </div>
                         </div>

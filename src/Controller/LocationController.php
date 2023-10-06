@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Booking;
 use App\Entity\Location;
+use App\Form\BookingType;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,6 +57,28 @@ class LocationController extends AbstractController
         }
         return $this->render('location/edit.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[IsGranted("ROLE_USER")]
+    #[Route('/book/{id}', name: 'app_location_book', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function book(Request $request, Location $location, EntityManagerInterface $entityManager): Response
+    {
+        $booking = new Booking();
+        $booking->setLocation($location);
+        $booking->setUser($this->getUser());
+        $form = $this->createForm(BookingType::class, $booking);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $totalPrice = $location->getNightPrice() * $booking->getDateStart()?->diff($booking->getDateEnd())->days;
+            $booking->setTotalPrice($totalPrice);
+            $entityManager->persist($booking);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_home');
+        }
+        return $this->render('location/book.html.twig', [
+            'form' => $form,
+            'location' => $location,
         ]);
     }
 
